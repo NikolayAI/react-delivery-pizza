@@ -1,21 +1,26 @@
 import React from 'react'
-import { useSelectItem } from '../../utils/hooks/useSelectItem'
+import { useDispatch, useSelector } from 'react-redux'
+import { filtersActions } from '../../redux/actions/filters'
+import { selectCategory } from '../../redux/selectors/filters'
 
-interface ICategories {
-  items: string[]
-}
+const categoryNames = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые']
 
-export const Categories: React.FC<ICategories> = ({ items }) => {
-  const { activeItem, handleSelectItem } = useSelectItem()
+export const Categories: React.FC = React.memo(() => {
+  const dispatch = useDispatch()
+  const activeCategory = useSelector(selectCategory)
+
+  const handleSelectCategories = (i: number) => {
+    dispatch(filtersActions.setCategory(i))
+  }
 
   return (
     <div className='categories'>
       <ul>
-        {items.map((title, i) => (
+        {categoryNames.map((title, i) => (
           <li
             key={`${title}_${i}`}
-            className={activeItem === i ? 'active' : ''}
-            onClick={() => handleSelectItem(i)}
+            className={activeCategory === i ? 'active' : ''}
+            onClick={() => handleSelectCategories(i)}
           >
             {title}
           </li>
@@ -23,4 +28,4 @@ export const Categories: React.FC<ICategories> = ({ items }) => {
       </ul>
     </div>
   )
-}
+})

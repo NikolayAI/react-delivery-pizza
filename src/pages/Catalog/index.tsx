@@ -1,27 +1,25 @@
 import React from 'react'
-import { Categories, ProductCard, SortPopup } from '../../components'
-import { IItem } from '../../App'
+import { CatalogLoader, Categories, ProductCard, SortPopup } from '../../components'
+import { useSelector } from 'react-redux'
+import { selectItems, selectStatus } from '../../redux/selectors/catalog'
+import { appStatuses } from '../../utils/types/types'
 
-interface ICatalog {
-  items: IItem[]
-}
-
-export const Catalog: React.FC<ICatalog> = ({ items }) => {
-  console.log(items)
+export const Catalog: React.FC = () => {
+  const items = useSelector(selectItems)
+  const status = useSelector(selectStatus)
+  console.log('catalog')
 
   return (
     <div className='container'>
       <div className='content__top'>
-        <Categories
-          items={['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые']}
-        />
-        <SortPopup items={['популярности', 'цене', 'алфавиту']} />
+        <Categories />
+        <SortPopup />
       </div>
       <h2 className='content__title'>Все пиццы</h2>
       <div className='content__items'>
-        {items.map((item) => (
-          <ProductCard key={item.id} {...item} />
-        ))}
+        {status === appStatuses.success
+          ? items.map((item) => <ProductCard key={item.id} {...item} />)
+          : Array(12).map((_, i) => <CatalogLoader key={i} />)}
       </div>
     </div>
   )

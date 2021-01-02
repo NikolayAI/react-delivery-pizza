@@ -1,15 +1,22 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useSelectItem } from '../../utils/hooks/useSelectItem'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectCategory, selectSortBy } from '../../redux/selectors/filters'
+import { filtersActions } from '../../redux/actions/filters'
 
-interface ISortPopup {
-  items: string[]
-}
+const filterNames = [
+  { name: 'популярности', type: 'popular' },
+  { name: 'цене', type: 'price' },
+  { name: 'алфавиту', type: 'alphabet' },
+]
 
-export const SortPopup: React.FC<ISortPopup> = ({ items }) => {
+export const SortPopup: React.FC = React.memo(() => {
+  const dispatch = useDispatch()
   const [visiblePopup, setVisiblePopup] = useState<boolean>(false)
-  const { activeItem, handleSelectItem } = useSelectItem()
+  const activeSortBy = useSelector(selectSortBy)
+
   const sort = useRef<HTMLDivElement>(null)
-  const activeSortTitle = items[activeItem]
+  const activeSortTitle = filterNames[activeSortBy].name
 
   const toggleVisiblePopup = () => setVisiblePopup(!visiblePopup)
   const handleClickOutsidePopup = (e: MouseEvent) => {
@@ -18,7 +25,7 @@ export const SortPopup: React.FC<ISortPopup> = ({ items }) => {
     }
   }
   const handleSelectOption = (index: number) => {
-    handleSelectItem(index)
+    // dispatch(filtersActions.setSortBy(index))
     setVisiblePopup(false)
   }
 
@@ -57,13 +64,13 @@ export const SortPopup: React.FC<ISortPopup> = ({ items }) => {
       {visiblePopup && (
         <div className='sort__popup'>
           <ul>
-            {items.map((title, i) => (
+            {filterNames.map((item, i) => (
               <li
-                key={`${title}_${i}`}
-                className={activeItem === i ? 'active' : ''}
+                key={`${item.type}_${i}`}
+                className={activeSortBy === i ? 'active' : ''}
                 onClick={() => handleSelectOption(i)}
               >
-                {title}
+                {item.name}
               </li>
             ))}
           </ul>
@@ -71,4 +78,4 @@ export const SortPopup: React.FC<ISortPopup> = ({ items }) => {
       )}
     </div>
   )
-}
+})
