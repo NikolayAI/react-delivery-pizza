@@ -4,8 +4,6 @@ import logo from '../../assets/img/pizza-logo.svg'
 import { CartButton } from '../../components'
 
 export const Header: React.FC = () => {
-  const handleClickCart = () => console.log('button cart')
-
   return (
     <div className='header'>
       <div className='container'>
@@ -20,7 +18,7 @@ export const Header: React.FC = () => {
         </Link>
         <div className='header__cart'>
           <Link to='/cart'>
-            <CartButton onClick={handleClickCart} className='button--cart' />
+            <CartButton className='button--cart' />
           </Link>
         </div>
       </div>

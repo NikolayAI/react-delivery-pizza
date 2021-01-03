@@ -2,7 +2,10 @@ import { filtersActionsType } from '../actions/filters'
 
 const initialState = {
   category: 0,
-  sortBy: 'popular',
+  sortBy: {
+    type: 'popular',
+    order: 'desc',
+  },
 }
 
 export const filters = (state = initialState, action: filtersActionsType) => {
@@ -20,4 +23,9 @@ export const filters = (state = initialState, action: filtersActionsType) => {
     default:
       return state
   }
+}
+
+export interface ISortBy {
+  type: string
+  order: string
 }

@@ -1,22 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useSelectItem } from '../../utils/hooks/useSelectItem'
-import { useDispatch, useSelector } from 'react-redux'
-import { selectCategory, selectSortBy } from '../../redux/selectors/filters'
+import { useDispatch } from 'react-redux'
 import { filtersActions } from '../../redux/actions/filters'
+import { ISortBy } from '../../redux/reducers/filters'
 
-const filterNames = [
-  { name: 'популярности', type: 'popular' },
-  { name: 'цене', type: 'price' },
-  { name: 'алфавиту', type: 'alphabet' },
-]
+interface ISortPopup {
+  items: Array<{ name: string; type: string; order: string }>
+  activeSortBy: string
+}
 
-export const SortPopup: React.FC = React.memo(() => {
+export const SortPopup: React.FC<ISortPopup> = React.memo(({ items, activeSortBy }) => {
   const dispatch = useDispatch()
   const [visiblePopup, setVisiblePopup] = useState<boolean>(false)
-  const activeSortBy = useSelector(selectSortBy)
-
   const sort = useRef<HTMLDivElement>(null)
-  const activeSortTitle = filterNames[activeSortBy].name
+  const activeSortTitle = items.find((item) => item.type === activeSortBy)?.name
 
   const toggleVisiblePopup = () => setVisiblePopup(!visiblePopup)
   const handleClickOutsidePopup = (e: MouseEvent) => {
@@ -24,8 +20,8 @@ export const SortPopup: React.FC = React.memo(() => {
       if (!e.composedPath().includes(sort.current)) setVisiblePopup(false)
     }
   }
-  const handleSelectOption = (index: number) => {
-    // dispatch(filtersActions.setSortBy(index))
+  const handleSelectOption = (item: ISortBy) => {
+    dispatch(filtersActions.setSortBy(item))
     setVisiblePopup(false)
   }
 
@@ -64,11 +60,11 @@ export const SortPopup: React.FC = React.memo(() => {
       {visiblePopup && (
         <div className='sort__popup'>
           <ul>
-            {filterNames.map((item, i) => (
+            {items.map((item, i) => (
               <li
                 key={`${item.type}_${i}`}
-                className={activeSortBy === i ? 'active' : ''}
-                onClick={() => handleSelectOption(i)}
+                className={activeSortBy === item.type ? 'active' : ''}
+                onClick={() => handleSelectOption(item)}
               >
                 {item.name}
               </li>

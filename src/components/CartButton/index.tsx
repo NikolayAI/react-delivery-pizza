@@ -1,21 +1,23 @@
 import React from 'react'
 import classNames from 'classnames'
+import { useSelector } from 'react-redux'
+import { selectCart } from '../../redux/selectors/cart'
 
 interface IButton {
-  onClick: () => void
   outline?: boolean
   className: string
 }
 
-export const CartButton: React.FC<IButton> = ({ onClick, outline, className }) => {
+export const CartButton: React.FC<IButton> = React.memo(({ outline, className }) => {
+  const { totalPrice, totalCount } = useSelector(selectCart)
+
   return (
     <button
-      onClick={onClick}
       className={classNames('button', className, {
         'button--outline': outline,
       })}
     >
-      <span>520 ₽</span>
+      <span>{totalPrice} ₽</span>
       <div className='button__delimiter'></div>
       <svg
         width='18'
@@ -58,7 +60,7 @@ export const CartButton: React.FC<IButton> = ({ onClick, outline, className }) =
           strokeLinejoin='round'
         />
       </svg>
-      <span>3</span>
+      <span>{totalCount}</span>
     </button>
   )
-}
+})

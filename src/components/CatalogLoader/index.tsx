@@ -3,6 +3,7 @@ import ContentLoader from 'react-content-loader'
 
 export const CatalogLoader: React.FC<any> = (props) => (
   <ContentLoader
+    className='pizza-block'
     speed={2}
     width={280}
     height={460}
@@ -11,10 +12,10 @@ export const CatalogLoader: React.FC<any> = (props) => (
     foregroundColor='#ecebeb'
     {...props}
   >
-    <rect x='0' y='264' rx='6' ry='6' width='280' height='20' />
-    <rect x='0' y='302' rx='6' ry='6' width='280' height='84' />
-    <rect x='17' y='410' rx='6' ry='6' width='82' height='32' />
-    <rect x='112' y='395' rx='20' ry='20' width='163' height='54' />
-    <circle cx='150' cy='130' r='120' />
+    <rect x='0' y='273' rx='6' ry='6' width='280' height='26' />
+    <rect x='0' y='310' rx='6' ry='6' width='280' height='84' />
+    <rect x='0' y='418' rx='6' ry='6' width='91' height='32' />
+    <rect x='137' y='408' rx='25' ry='25' width='140' height='46' />
+    <circle cx='132' cy='120' r='115' />
   </ContentLoader>
 )

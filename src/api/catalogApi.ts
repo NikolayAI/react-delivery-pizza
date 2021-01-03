@@ -1,8 +1,15 @@
-import axios from 'axios'
+import { ISortBy } from '../redux/reducers/filters'
+import { deliveryPizza } from './api'
 
 export const catalogApi = {
-  getItems() {
-    return axios.get<IItem[]>('http://localhost:3001/pizzas').then((res) => res.data)
+  getItems(category: number, sortBy: ISortBy) {
+    return deliveryPizza
+      .get<IItem[]>(
+        `/pizzas?${category ? `category=${category}` : ''}&_sort=${sortBy.type}&_order=${
+          sortBy.order
+        }`
+      )
+      .then((res) => res.data)
   },
 }
 
