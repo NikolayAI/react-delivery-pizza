@@ -1,19 +1,21 @@
 import React, { useEffect } from 'react'
-import { CatalogLoader, Categories, ProductCard, SortPopup } from '../../components'
+import {
+  CatalogLoader,
+  Categories,
+  ProductCard,
+  SortPopup,
+} from '../../components'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectItems, selectStatus } from '../../redux/selectors/catalog'
 import { selectCategory, selectSortBy } from '../../redux/selectors/filters'
 import { fetchItems } from '../../redux/actions/catalog'
-import { appStatuses } from '../../utils/types/types'
 import { cartActions, ICartItem } from '../../redux/actions/cart'
 import { selectCartItems } from '../../redux/selectors/cart'
-
-const categoryNames = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые']
-const filterNames = [
-  { name: 'популярности', type: 'popular', order: 'desc' },
-  { name: 'цене', type: 'price', order: 'desc' },
-  { name: 'алфавиту', type: 'name', order: 'asc' },
-]
+import {
+  appStatuses,
+  categoryNames,
+  filterNames,
+} from '../../variables/constats'
 
 export const Catalog: React.FC = () => {
   const dispatch = useDispatch()

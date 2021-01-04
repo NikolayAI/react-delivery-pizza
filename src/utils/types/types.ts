@@ -3,9 +3,3 @@ export type InferActionsTypes<T> = T extends {
 }
   ? U
   : never
-
-export enum appStatuses {
-  success = 'success',
-  loading = 'loading',
-  error = 'error',
-}

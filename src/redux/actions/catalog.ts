@@ -1,11 +1,14 @@
-import { appStatuses, InferActionsTypes } from '../../utils/types/types'
+import { InferActionsTypes } from '../../utils/types/types'
 import { catalogApi, IItem } from '../../api/catalogApi'
 import { Dispatch } from 'redux'
 import { ISortBy } from '../reducers/filters'
+import { appStatuses } from '../../variables/constats'
 
 export const catalogActions = {
-  setItems: (items: IItem[]) => ({ type: 'SET_ITEMS', payload: items } as const),
-  setStatus: (status: string) => ({ type: 'SET_STATUS', payload: status } as const),
+  setItems: (items: IItem[]) =>
+    ({ type: 'SET_ITEMS', payload: items } as const),
+  setStatus: (status: string) =>
+    ({ type: 'SET_STATUS', payload: status } as const),
 }
 
 export const fetchItems = (

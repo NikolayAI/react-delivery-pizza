@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import React from 'react'
 import { useSelectItem } from '../../utils/hooks/useSelectItem'
 import { IItem } from '../../api/catalogApi'
-import { AddToCartButton } from '../AddToCartButton'
+import { AddToCartButton } from '../index'
 import { ICartItem } from '../../redux/actions/cart'
 
 interface IProductCard extends IItem {
@@ -24,13 +24,15 @@ export const ProductCard: React.FC<IProductCard> = React.memo(
     const availableTypes = ['тонкое', 'традиционное']
     const availableSizes = [26, 30, 40]
 
-    const { activeItem: activeType, handleSelectItem: handleSelectType } = useSelectItem(
-      types[0]
-    )
+    const {
+      activeItem: activeType,
+      handleSelectItem: handleSelectType,
+    } = useSelectItem(types[0])
 
-    const { activeItem: activeSize, handleSelectItem: handleSelectSize } = useSelectItem(
-      availableSizes.indexOf(sizes[0])
-    )
+    const {
+      activeItem: activeSize,
+      handleSelectItem: handleSelectSize,
+    } = useSelectItem(availableSizes.indexOf(sizes[0]))
 
     const handleClickAddItem = () => {
       const item = {

@@ -1,6 +1,6 @@
 import { catalogActionsType } from '../actions/catalog'
-import { appStatuses } from '../../utils/types/types'
 import { IItem } from '../../api/catalogApi'
+import { appStatuses } from '../../variables/constats'
 
 const initialState = {
   items: [] as IItem[],
