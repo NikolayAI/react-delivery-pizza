@@ -1,4 +1,8 @@
 import { cartActionsType, ICartItem } from '../actions/cart'
+import {
+  generateNewItem,
+  removeCartItemRowFlow,
+} from '../../utils/reducers/cart'
 
 const initialState = {
   items: {} as ICartItems,
@@ -13,27 +17,17 @@ export const cart = (state = initialState, action: cartActionsType) => {
         ? [...state.items[action.payload.id].items, action.payload]
         : [action.payload]
 
-      const { newItems, totalPrice, allItemsInCart } = generateNewItem(
-        state,
-        action.payload.id,
-        currentItem
-      )
-
-      return {
-        ...state,
-        items: newItems,
-        totalCount: allItemsInCart.length,
-        totalPrice,
-      }
+      return generateNewItem(state, action.payload.id, currentItem)
     }
 
-    case 'CLEAR_CART':
+    case 'CLEAR_CART': {
       return {
         ...state,
         items: {},
         totalPrice: 0,
         totalCount: 0,
       }
+    }
 
     case 'REMOVE_CART_ITEM_ROW': {
       return removeCartItemRowFlow(state, action)
@@ -45,18 +39,7 @@ export const cart = (state = initialState, action: cartActionsType) => {
         state.items[action.payload].items[0],
       ]
 
-      const { newItems, totalPrice, allItemsInCart } = generateNewItem(
-        state,
-        action.payload,
-        newObjItems
-      )
-
-      return {
-        ...state,
-        items: newItems,
-        totalPrice,
-        totalCount: allItemsInCart.length,
-      }
+      return generateNewItem(state, action.payload, newObjItems)
     }
 
     case 'DECREASE_CART_ITEM': {
@@ -70,18 +53,7 @@ export const cart = (state = initialState, action: cartActionsType) => {
         return removeCartItemRowFlow(state, action)
       }
 
-      const { newItems, totalPrice, allItemsInCart } = generateNewItem(
-        state,
-        action.payload,
-        newObjItems
-      )
-
-      return {
-        ...state,
-        items: newItems,
-        totalPrice,
-        totalCount: allItemsInCart.length,
-      }
+      return generateNewItem(state, action.payload, newObjItems)
     }
 
     default:
@@ -89,49 +61,11 @@ export const cart = (state = initialState, action: cartActionsType) => {
   }
 }
 
-const getTotalPrice = (arr: ICartItem[]) => {
-  return arr.reduce((acc, item: ICartItem) => acc + item.price, 0)
-}
-
-const removeCartItemRowFlow = (state: any, action: any) => {
-  const newItems = {
-    ...state.items,
-  }
-  const currentTotalPrice = newItems[action.payload].totalItemPrice
-  const currentTotalCount = newItems[action.payload].items.length
-  delete newItems[action.payload]
-
-  return {
-    ...state,
-    items: newItems,
-    totalPrice: state.totalPrice - currentTotalPrice,
-    totalCount: state.totalCount - currentTotalCount,
-  }
-}
-
-const generateNewItem = (state: any, itemId: number, arr: ICartItem[]) => {
-  const newItems: ICartItems = {
-    ...state.items,
-    [itemId]: {
-      items: arr,
-      totalItemPrice: getTotalPrice(arr),
-    },
-  }
-
-  const items = Object.values(newItems).map(
-    (item: ICartItemsValue) => item.items
-  )
-  const allItemsInCart = items.flat(1)
-  const totalPrice = getTotalPrice(allItemsInCart)
-
-  return { newItems, totalPrice, allItemsInCart }
-}
-
-interface ICartItemsValue {
+export interface ICartItemsValue {
   items: ICartItem[]
   totalItemPrice: number
 }
 
-interface ICartItems {
+export interface ICartItems {
   [key: string]: ICartItemsValue
 }
