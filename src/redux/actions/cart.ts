@@ -1,4 +1,4 @@
-import { InferActionsTypes } from '../../utils/types/types'
+import { ICartItem } from '../types'
 
 export const cartActions = {
   addItemToCart: (item: ICartItem) =>
@@ -22,15 +22,4 @@ export const cartActions = {
       payload: itemId,
     } as const),
   clearCart: () => ({ type: 'CLEAR_CART' } as const),
-}
-
-export type cartActionsType = InferActionsTypes<typeof cartActions>
-
-export interface ICartItem {
-  id: number
-  name: string
-  imageUrl: string
-  price: number
-  type: string
-  size: number
 }

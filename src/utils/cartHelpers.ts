@@ -1,5 +1,4 @@
-import { ICartItem } from '../../redux/actions/cart'
-import { ICartItems, ICartItemsValue } from '../../redux/reducers/cart'
+import { ICartItem, ICartItems, ICartItemsValue } from '../redux/types'
 
 const getTotalPrice = (arr: ICartItem[]) => {
   return arr.reduce((acc, item: ICartItem) => acc + item.price, 0)

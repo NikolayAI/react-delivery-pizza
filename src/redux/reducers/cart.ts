@@ -1,8 +1,5 @@
-import { cartActionsType, ICartItem } from '../actions/cart'
-import {
-  generateNewItem,
-  removeCartItemRowFlow,
-} from '../../utils/reducers/cart'
+import { generateNewItem, removeCartItemRowFlow } from '../../utils/cartHelpers'
+import { cartActionsType, ICartItems } from '../types'
 
 const initialState = {
   items: {} as ICartItems,
@@ -59,13 +56,4 @@ export const cart = (state = initialState, action: cartActionsType) => {
     default:
       return state
   }
-}
-
-export interface ICartItemsValue {
-  items: ICartItem[]
-  totalItemPrice: number
-}
-
-export interface ICartItems {
-  [key: string]: ICartItemsValue
 }

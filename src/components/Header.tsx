@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import logo from '../../assets/img/pizza-logo.svg'
-import { CartButton } from '../../components'
+import logo from '../assets/img/pizza-logo.svg'
+import { CartButton } from './index'
 
 export const Header: React.FC = () => {
   return (

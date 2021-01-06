@@ -1,5 +1,5 @@
 import React from 'react'
-import { ICartItem } from '../../redux/actions/cart'
+import { ICartItem } from '../redux/types'
 
 interface ICartItemRow extends ICartItem {
   totalItemPrice: number

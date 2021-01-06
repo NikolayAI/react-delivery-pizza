@@ -1,5 +1,5 @@
-import { ISortBy } from '../redux/reducers/filters'
-import { deliveryPizza } from './api'
+import { deliveryPizza, IItem } from './api'
+import { ISortBy } from '../redux/types'
 
 export const catalogApi = {
   getItems(category: number, sortBy: ISortBy) {
@@ -11,15 +11,4 @@ export const catalogApi = {
       )
       .then((res) => res.data)
   },
-}
-
-export interface IItem {
-  id: number
-  imageUrl: string
-  name: string
-  types: number[]
-  sizes: number[]
-  price: number
-  category: number
-  rating: number
 }

@@ -8,7 +8,10 @@ interface IAddToCartButton {
 export const AddToCartButton: React.FC<IAddToCartButton> = React.memo(
   ({ onClickAddItemToCart, itemCountInCart }) => {
     return (
-      <div onClick={onClickAddItemToCart} className='button button--outline button--add'>
+      <div
+        onClick={onClickAddItemToCart}
+        className='button button--outline button--add'
+      >
         <svg
           width='12'
           height='12'

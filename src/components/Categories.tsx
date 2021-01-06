@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { filtersActions } from '../../redux/actions/filters'
+import { filtersActions } from '../redux/actions'
 
 interface ICategories {
   items: string[]

@@ -1,4 +1,4 @@
-import { filtersActionsType } from '../actions/filters'
+import { filtersActionsType } from '../types'
 
 const initialState = {
   category: 0,
@@ -23,9 +23,4 @@ export const filters = (state = initialState, action: filtersActionsType) => {
     default:
       return state
   }
-}
-
-export interface ISortBy {
-  type: string
-  order: string
 }

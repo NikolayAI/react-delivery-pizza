@@ -1,9 +1,9 @@
 import classNames from 'classnames'
 import React from 'react'
-import { useSelectItem } from '../../utils/hooks/useSelectItem'
-import { IItem } from '../../api/catalogApi'
-import { AddToCartButton } from '../index'
-import { ICartItem } from '../../redux/actions/cart'
+import { useSelectItem } from '../utils'
+import { AddToCartButton } from './index'
+import { IItem } from '../api/api'
+import { ICartItem } from '../redux/types'
 
 interface IProductCard extends IItem {
   onClickAddItemToCart: (item: ICartItem) => void

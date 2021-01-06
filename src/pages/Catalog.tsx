@@ -4,18 +4,20 @@ import {
   Categories,
   ProductCard,
   SortPopup,
-} from '../../components'
+} from '../components'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectItems, selectStatus } from '../../redux/selectors/catalog'
-import { selectCategory, selectSortBy } from '../../redux/selectors/filters'
-import { fetchItems } from '../../redux/actions/catalog'
-import { cartActions, ICartItem } from '../../redux/actions/cart'
-import { selectCartItems } from '../../redux/selectors/cart'
 import {
-  appStatuses,
-  categoryNames,
-  filterNames,
-} from '../../variables/constats'
+  selectCartItems,
+  selectCategory,
+  selectItems,
+  selectSortBy,
+  selectStatus,
+} from '../redux/selectors'
+import { cartActions, fetchItems } from '../redux/actions'
+import { appStatuses, categoryNames, filterNames } from '../constants'
+import { ICartItem } from '../redux/types'
+
+let cash = ''
 
 export const Catalog: React.FC = () => {
   const dispatch = useDispatch()
@@ -26,7 +28,14 @@ export const Catalog: React.FC = () => {
   const activeSortBy = useSelector(selectSortBy)
 
   useEffect(() => {
-    dispatch(fetchItems(activeCategory, activeSortBy))
+    if (
+      cash === `${activeCategory}_${activeSortBy.type}_${activeSortBy.order}`
+    ) {
+      return
+    } else {
+      cash = `${activeCategory}_${activeSortBy.type}_${activeSortBy.order}`
+      dispatch(fetchItems(activeCategory, activeSortBy))
+    }
   }, [dispatch, activeCategory, activeSortBy])
 
   const handleClickAddItemToCart = (item: ICartItem) => {

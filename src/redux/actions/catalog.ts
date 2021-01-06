@@ -1,8 +1,8 @@
-import { InferActionsTypes } from '../../utils/types/types'
-import { catalogApi, IItem } from '../../api/catalogApi'
+import { catalogApi } from '../../api'
 import { Dispatch } from 'redux'
-import { ISortBy } from '../reducers/filters'
-import { appStatuses } from '../../variables/constats'
+import { appStatuses } from '../../constants'
+import { IItem } from '../../api/api'
+import { ISortBy } from '../types'
 
 export const catalogActions = {
   setItems: (items: IItem[]) =>
@@ -27,5 +27,3 @@ export const fetchItems = (
     dispatch(catalogActions.setStatus(appStatuses.error))
   }
 }
-
-export type catalogActionsType = InferActionsTypes<typeof catalogActions>

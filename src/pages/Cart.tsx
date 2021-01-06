@@ -1,9 +1,9 @@
 import React from 'react'
-import { CartItemRow } from '../../components'
+import { CartItemRow } from '../components'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectCart } from '../../redux/selectors/cart'
-import { cartActions } from '../../redux/actions/cart'
-import cartEmptyImg from '../../assets/img/empty-cart.png'
+import { selectCart } from '../redux/selectors'
+import { cartActions } from '../redux/actions'
+import cartEmptyImg from '../assets/img/empty-cart.png'
 import { Link } from 'react-router-dom'
 
 export const Cart: React.FC = () => {
