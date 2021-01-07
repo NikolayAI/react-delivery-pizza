@@ -1,26 +1,24 @@
-import { filtersActionsType } from '../types'
+import { ISortBy } from '../types'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-const initialState = {
-  category: 0,
-  sortBy: {
-    type: 'popular',
-    order: 'desc',
+const filtersSlice = createSlice({
+  name: 'filters',
+  initialState: {
+    category: 0,
+    sortBy: {
+      type: 'popular',
+      order: 'desc',
+    },
   },
-}
+  reducers: {
+    setSortBy(state, action: PayloadAction<ISortBy>) {
+      state.sortBy = action.payload
+    },
+    setCategory(state, action: PayloadAction<number>) {
+      state.category = action.payload
+    },
+  },
+})
 
-export const filters = (state = initialState, action: filtersActionsType) => {
-  switch (action.type) {
-    case 'SET_SORT_BY':
-      return {
-        ...state,
-        sortBy: action.payload,
-      }
-    case 'SET_CATEGORY':
-      return {
-        ...state,
-        category: action.payload,
-      }
-    default:
-      return state
-  }
-}
+export const filters = filtersSlice.reducer
+export const { setSortBy, setCategory } = filtersSlice.actions

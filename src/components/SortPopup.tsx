@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { filtersActions } from '../redux/actions'
+import { setSortBy } from '../redux/actions'
 import { ISortBy } from '../redux/types'
 
 interface ISortPopup {
@@ -23,7 +23,7 @@ export const SortPopup: React.FC<ISortPopup> = React.memo(
       }
     }
     const handleSelectOption = (item: ISortBy) => {
-      dispatch(filtersActions.setSortBy(item))
+      dispatch(setSortBy(item))
       setVisiblePopup(false)
     }
 

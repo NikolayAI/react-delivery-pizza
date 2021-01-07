@@ -1,4 +1,18 @@
-import { catalogActions } from '../actions'
-import { InferActionsTypes } from './index'
+import { ISortBy } from './index'
 
-export type catalogActionsType = InferActionsTypes<typeof catalogActions>
+export interface IThunkError {
+  rejectValue: {
+    errors: string[]
+    fieldsErrors?: IFieldError[]
+  }
+}
+
+export interface IFieldError {
+  field: string
+  error: string
+}
+
+export interface IFetchItemsParam {
+  category: number
+  sortBy: ISortBy
+}

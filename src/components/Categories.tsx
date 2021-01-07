@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { filtersActions } from '../redux/actions'
+import { setCategory } from '../redux/actions'
 
 interface ICategories {
   items: string[]
@@ -12,7 +12,7 @@ export const Categories: React.FC<ICategories> = React.memo(
     const dispatch = useDispatch()
 
     const handleSelectCategories = (i: number) => {
-      dispatch(filtersActions.setCategory(i))
+      dispatch(setCategory(i))
     }
 
     return (

@@ -24,19 +24,17 @@ export const Catalog: React.FC = () => {
   const catalogItems = useSelector(selectItems)
   const cartItems = useSelector(selectCartItems)
   const status = useSelector(selectStatus)
-  const activeCategory = useSelector(selectCategory)
-  const activeSortBy = useSelector(selectSortBy)
+  const category = useSelector(selectCategory)
+  const sortBy = useSelector(selectSortBy)
 
   useEffect(() => {
-    if (
-      cash === `${activeCategory}_${activeSortBy.type}_${activeSortBy.order}`
-    ) {
+    if (cash === `${category}_${sortBy.type}_${sortBy.order}`) {
       return
     } else {
-      cash = `${activeCategory}_${activeSortBy.type}_${activeSortBy.order}`
-      dispatch(fetchItems(activeCategory, activeSortBy))
+      cash = `${category}_${sortBy.type}_${sortBy.order}`
+      dispatch(fetchItems({ category, sortBy }))
     }
-  }, [dispatch, activeCategory, activeSortBy])
+  }, [dispatch, category, sortBy])
 
   const handleClickAddItemToCart = (item: ICartItem) => {
     dispatch(cartActions.addItemToCart(item))
@@ -45,8 +43,8 @@ export const Catalog: React.FC = () => {
   return (
     <div className='container'>
       <div className='content__top'>
-        <Categories items={categoryNames} activeCategory={activeCategory} />
-        <SortPopup items={filterNames} activeSortBy={activeSortBy.type} />
+        <Categories items={categoryNames} activeCategory={category} />
+        <SortPopup items={filterNames} activeSortBy={sortBy.type} />
       </div>
       <h2 className='content__title'>Все пиццы</h2>
       <div className='content__items'>
