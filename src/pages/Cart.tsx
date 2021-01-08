@@ -2,9 +2,14 @@ import React from 'react'
 import { CartItemRow } from '../components'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectCart } from '../redux/selectors'
-import { cartActions } from '../redux/actions'
 import cartEmptyImg from '../assets/img/empty-cart.png'
 import { Link } from 'react-router-dom'
+import {
+  clearCart,
+  decreaseCartItem,
+  increaseCartItem,
+  removeCartItemRow,
+} from '../redux/actions'
 
 export const Cart: React.FC = () => {
   const dispatch = useDispatch()
@@ -13,20 +18,20 @@ export const Cart: React.FC = () => {
 
   const handleClearCart = () => {
     if (window.confirm('Вы действительно хотите очистить корзину?')) {
-      dispatch(cartActions.clearCart())
+      dispatch(clearCart())
     }
   }
 
   const handleRemoveCartItem = (itemId: number) => {
-    dispatch(cartActions.removeCartItemRow(itemId))
+    dispatch(removeCartItemRow(itemId))
   }
 
   const handleIncreaseCartItem = (itemId: number) => {
-    dispatch(cartActions.increaseCartItem(itemId))
+    dispatch(increaseCartItem(itemId))
   }
 
   const handleDecreaseCartItem = (itemId: number) => {
-    dispatch(cartActions.decreaseCartItem(itemId))
+    dispatch(decreaseCartItem(itemId))
   }
 
   const handleClickCheckout = () => {

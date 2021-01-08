@@ -1,6 +1,6 @@
 import { ICartItem, ICartItems, ICartItemsValue } from '../redux/types'
 
-const getTotalPrice = (arr: ICartItem[]) => {
+export const getTotalPrice = (arr: ICartItem[]) => {
   return arr.reduce((acc, item: ICartItem) => acc + item.price, 0)
 }
 

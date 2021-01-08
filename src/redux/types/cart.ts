@@ -1,8 +1,3 @@
-import { cartActions } from '../actions'
-import { InferActionsTypes } from './index'
-
-export type cartActionsType = InferActionsTypes<typeof cartActions>
-
 export interface ICartItem {
   id: number
   name: string

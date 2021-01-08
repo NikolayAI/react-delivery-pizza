@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { addItemToCart, fetchItems } from '../redux/actions'
+import { appStatuses, categoryNames, filterNames } from '../constants'
+import { ICartItem } from '../redux/types'
 import {
   CatalogLoader,
   Categories,
   ProductCard,
   SortPopup,
 } from '../components'
-import { useDispatch, useSelector } from 'react-redux'
 import {
   selectCartItems,
   selectCategory,
@@ -13,9 +16,6 @@ import {
   selectSortBy,
   selectStatus,
 } from '../redux/selectors'
-import { cartActions, fetchItems } from '../redux/actions'
-import { appStatuses, categoryNames, filterNames } from '../constants'
-import { ICartItem } from '../redux/types'
 
 let cash = ''
 
@@ -37,7 +37,7 @@ export const Catalog: React.FC = () => {
   }, [dispatch, category, sortBy])
 
   const handleClickAddItemToCart = (item: ICartItem) => {
-    dispatch(cartActions.addItemToCart(item))
+    dispatch(addItemToCart(item))
   }
 
   return (

@@ -1,5 +1,6 @@
-import { ICartItem, ICartItems, ICartItemsValue } from '../types'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { ICartItem, ICartItems, ICartItemsValue } from '../types'
+import { getTotalPrice } from '../../utils/cartHelpers'
 
 const cartSlice = createSlice({
   name: 'cart',
@@ -10,32 +11,68 @@ const cartSlice = createSlice({
   },
   reducers: {
     addItemToCart(state, { payload }: PayloadAction<ICartItem>) {
-      const currentItem = state.items[payload.id]
-        ? [...state.items[payload.id].items, payload]
-        : [payload]
-      state.items[payload.id].items = currentItem
-      state.items[payload.id].totalItemPrice = getTotalPrice(currentItem)
+      if (state.items[payload.id]) {
+        state.items[payload.id].items = [
+          ...state.items[payload.id].items,
+          payload,
+        ]
+        state.items[payload.id].totalItemPrice = getTotalPrice(
+          state.items[payload.id].items
+        )
+      } else {
+        state.items[payload.id] = {
+          items: [payload],
+          totalItemPrice: payload.price,
+        }
+      }
 
-      // const newItems: ICartItems = {
-      //   ...state.items,
-      //   [payload.id]: {
-      //     items: currentItem,
-      //     totalItemPrice: getTotalPrice(currentItem),
-      //   },
-      // }
-
-      const items = Object.values(newItems).map(
+      const items = Object.values(state.items).map(
         (item: ICartItemsValue) => item.items
       )
       const allItemsInCart = items.flat(1)
-      const totalPrice = getTotalPrice(allItemsInCart)
 
-      return {
-        ...state,
-        items: newItems,
-        totalPrice,
-        totalCount: allItemsInCart.length,
+      state.totalPrice = getTotalPrice(allItemsInCart)
+      state.totalCount = allItemsInCart.length
+    },
+    increaseCartItem(state, { payload }: PayloadAction<number>) {
+      const newObjItems = [
+        ...state.items[payload].items,
+        state.items[payload].items[0],
+      ]
+
+      state.items[payload].items = newObjItems
+      state.items[payload].totalItemPrice = getTotalPrice(newObjItems)
+
+      const items = Object.values(state.items).map(
+        (item: ICartItemsValue) => item.items
+      )
+      const allItemsInCart = items.flat(1)
+
+      state.totalPrice = getTotalPrice(allItemsInCart)
+      state.totalCount = allItemsInCart.length
+    },
+    decreaseCartItem(state, { payload }: PayloadAction<number>) {
+      const oldItems = state.items[payload].items
+      const newObjItems =
+        oldItems.length > 0 ? state.items[payload].items.slice(1) : oldItems
+
+      if (newObjItems.length < 1) {
+        state.totalPrice -= state.items[payload].totalItemPrice
+        state.totalCount -= state.items[payload].items.length
+        delete state.items[payload]
+        return
       }
+
+      state.items[payload].items = newObjItems
+      state.items[payload].totalItemPrice = getTotalPrice(newObjItems)
+
+      const items = Object.values(state.items).map(
+        (item: ICartItemsValue) => item.items
+      )
+      const allItemsInCart = items.flat(1)
+
+      state.totalPrice = getTotalPrice(allItemsInCart)
+      state.totalCount = allItemsInCart.length
     },
     clearCart(state) {
       state.items = {}
@@ -50,6 +87,15 @@ const cartSlice = createSlice({
   },
   extraReducers: {},
 })
+
+export const cart = cartSlice.reducer
+export const {
+  addItemToCart,
+  clearCart,
+  removeCartItemRow,
+  increaseCartItem,
+  decreaseCartItem,
+} = cartSlice.actions
 //
 // export const cart = (state = initialState, action: cartActionsType) => {
 //   switch (action.type) {
