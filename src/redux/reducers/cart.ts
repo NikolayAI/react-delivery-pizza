@@ -1,6 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { ICartItem, ICartItems, ICartItemsValue } from '../types'
-import { getTotalPrice } from '../../utils/cartHelpers'
+import { ICartItem, ICartItems } from '../types'
+import {
+  getTotalPrice,
+  removeCartItemRowFlow,
+  setItemsAndTotalItemPriceFlow,
+  setTotalPriceAndCountFlow,
+} from '../../utils/cartHelpers'
 
 const cartSlice = createSlice({
   name: 'cart',
@@ -26,13 +31,7 @@ const cartSlice = createSlice({
         }
       }
 
-      const items = Object.values(state.items).map(
-        (item: ICartItemsValue) => item.items
-      )
-      const allItemsInCart = items.flat(1)
-
-      state.totalPrice = getTotalPrice(allItemsInCart)
-      state.totalCount = allItemsInCart.length
+      setTotalPriceAndCountFlow(state, getTotalPrice)
     },
     increaseCartItem(state, { payload }: PayloadAction<number>) {
       const newObjItems = [
@@ -40,16 +39,8 @@ const cartSlice = createSlice({
         state.items[payload].items[0],
       ]
 
-      state.items[payload].items = newObjItems
-      state.items[payload].totalItemPrice = getTotalPrice(newObjItems)
-
-      const items = Object.values(state.items).map(
-        (item: ICartItemsValue) => item.items
-      )
-      const allItemsInCart = items.flat(1)
-
-      state.totalPrice = getTotalPrice(allItemsInCart)
-      state.totalCount = allItemsInCart.length
+      setItemsAndTotalItemPriceFlow(state, payload, newObjItems, getTotalPrice)
+      setTotalPriceAndCountFlow(state, getTotalPrice)
     },
     decreaseCartItem(state, { payload }: PayloadAction<number>) {
       const oldItems = state.items[payload].items
@@ -57,22 +48,12 @@ const cartSlice = createSlice({
         oldItems.length > 0 ? state.items[payload].items.slice(1) : oldItems
 
       if (newObjItems.length < 1) {
-        state.totalPrice -= state.items[payload].totalItemPrice
-        state.totalCount -= state.items[payload].items.length
-        delete state.items[payload]
+        removeCartItemRowFlow(state, payload)
         return
       }
 
-      state.items[payload].items = newObjItems
-      state.items[payload].totalItemPrice = getTotalPrice(newObjItems)
-
-      const items = Object.values(state.items).map(
-        (item: ICartItemsValue) => item.items
-      )
-      const allItemsInCart = items.flat(1)
-
-      state.totalPrice = getTotalPrice(allItemsInCart)
-      state.totalCount = allItemsInCart.length
+      setItemsAndTotalItemPriceFlow(state, payload, newObjItems, getTotalPrice)
+      setTotalPriceAndCountFlow(state, getTotalPrice)
     },
     clearCart(state) {
       state.items = {}
@@ -80,9 +61,7 @@ const cartSlice = createSlice({
       state.totalCount = 0
     },
     removeCartItemRow(state, { payload }: PayloadAction<number>) {
-      state.totalPrice -= state.items[payload].totalItemPrice
-      state.totalCount -= state.items[payload].items.length
-      delete state.items[payload]
+      removeCartItemRowFlow(state, payload)
     },
   },
   extraReducers: {},

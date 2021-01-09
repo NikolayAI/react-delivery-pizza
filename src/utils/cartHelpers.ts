@@ -1,48 +1,29 @@
-import { ICartItem, ICartItems, ICartItemsValue } from '../redux/types'
+import { ICartItem } from '../redux/types'
 
 export const getTotalPrice = (arr: ICartItem[]) => {
   return arr.reduce((acc, item: ICartItem) => acc + item.price, 0)
 }
 
-export const removeCartItemRowFlow = (state: any, action: any) => {
-  const newItems = {
-    ...state.items,
-  }
-  const currentTotalPrice = newItems[action.payload].totalItemPrice
-  const currentTotalCount = newItems[action.payload].items.length
-  delete newItems[action.payload]
-
-  return {
-    ...state,
-    items: newItems,
-    totalPrice: state.totalPrice - currentTotalPrice,
-    totalCount: state.totalCount - currentTotalCount,
-  }
+export const removeCartItemRowFlow = (state: any, itemId: number) => {
+  state.totalPrice -= state.items[itemId].totalItemPrice
+  state.totalCount -= state.items[itemId].items.length
+  delete state.items[itemId]
 }
 
-export const generateNewItem = (
+export const setTotalPriceAndCountFlow = (state: any, func: Function) => {
+  const items = Object.values(state.items).map((item: any) => item.items)
+  const allItemsInCart = items.flat(1)
+
+  state.totalPrice = func(allItemsInCart)
+  state.totalCount = allItemsInCart.length
+}
+
+export const setItemsAndTotalItemPriceFlow = (
   state: any,
   itemId: number,
-  arr: ICartItem[]
+  items: ICartItem[],
+  func: Function
 ) => {
-  const newItems: ICartItems = {
-    ...state.items,
-    [itemId]: {
-      items: arr,
-      totalItemPrice: getTotalPrice(arr),
-    },
-  }
-
-  const items = Object.values(newItems).map(
-    (item: ICartItemsValue) => item.items
-  )
-  const allItemsInCart = items.flat(1)
-  const totalPrice = getTotalPrice(allItemsInCart)
-
-  return {
-    ...state,
-    items: newItems,
-    totalPrice,
-    totalCount: allItemsInCart.length,
-  }
+  state.items[itemId].items = items
+  state.items[itemId].totalItemPrice = func(items)
 }
