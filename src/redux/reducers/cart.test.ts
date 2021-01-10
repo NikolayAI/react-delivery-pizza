@@ -103,6 +103,7 @@ beforeEach(() => {
 
 describe('item should be added in cart', () => {
   const endState = cart(startState, addItemToCart(cartItem))
+
   it('should change items length and price', () => {
     expect(endState.items[cartItem.id].items.length).toEqual(3)
     expect(endState.items[cartItem.id].items[2].price).toEqual(15)
@@ -116,31 +117,44 @@ describe('item should be added in cart', () => {
 
 describe('correct cart item should be increase', () => {
   const endState = cart(startState, increaseCartItem(1))
-  it('correct cart item should be increase', () => {
+
+  it('should increase correct item', () => {
     expect(endState.items[cartItem.id].items.length).toEqual(2)
     expect(endState.items[1].items.length).toEqual(2)
+  })
+
+  it('should increase totalPrice', () => {
     expect(endState.totalPrice).toEqual(70)
   })
 })
 
-test('correct cart item should be decrease', () => {
+describe('correct cart item should be decrease', () => {
   const endState = cart(startState, decreaseCartItem(0))
 
-  expect(endState.items[cartItem.id].items.length).toEqual(1)
-  expect(endState.items[1].items.length).toEqual(1)
-  expect(endState.totalCount).toEqual(2)
+  it('should decrease correct item', () => {
+    expect(endState.items[cartItem.id].items.length).toEqual(1)
+    expect(endState.items[1].items.length).toEqual(1)
+  })
+
+  it('should decrease totalCount', () => {
+    expect(endState.totalCount).toEqual(2)
+  })
 })
 
-test('correct cart item should be removed', () => {
+describe('cart item should be removed', () => {
   const endState = cart(startState, removeCartItemRow(0))
 
-  expect(endState.items[0]).not.toBeDefined()
-  expect(endState.totalCount).toEqual(1)
+  it('correct cart item should be removed', () => {
+    expect(endState.items[0]).not.toBeDefined()
+    expect(endState.totalCount).toEqual(1)
+  })
 })
 
-test('cart should be cleared', () => {
+describe('cart should be cleared', () => {
   const endState = cart(startState, clearCart())
 
-  expect(endState.items).toStrictEqual({})
-  expect(endState.totalCount).toEqual(0)
+  it('cart should be cleared', () => {
+    expect(endState.items).toStrictEqual({})
+    expect(endState.totalCount).toEqual(0)
+  })
 })
