@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { ICartItem } from '../redux/types'
 
 interface ICartItemRow extends ICartItem {

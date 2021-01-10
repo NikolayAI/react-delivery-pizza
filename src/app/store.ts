@@ -1,7 +1,8 @@
-import { rootReducer } from '../redux/reducers'
 import { configureStore } from '@reduxjs/toolkit'
-import { loadState, saveState } from '../utils/localStorage'
 import throttle from 'lodash.throttle'
+
+import { rootReducer } from '../redux/reducers'
+import { loadState, saveState } from '../utils/localStorage'
 
 export const store = configureStore({
   reducer: rootReducer,

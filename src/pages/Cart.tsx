@@ -1,15 +1,16 @@
 import React from 'react'
-import { CartItemRow } from '../components'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectCart } from '../redux/selectors'
-import cartEmptyImg from '../assets/img/empty-cart.png'
 import { Link } from 'react-router-dom'
+
+import { CartItemRow } from '../components'
+import { selectCart } from '../redux/selectors'
 import {
   clearCart,
   decreaseCartItem,
   increaseCartItem,
   removeCartItemRow,
 } from '../redux/actions'
+import cartEmptyImg from '../assets/img/empty-cart.png'
 
 export const Cart: React.FC = () => {
   const dispatch = useDispatch()
@@ -54,7 +55,8 @@ export const Cart: React.FC = () => {
                 <path
                   d='M6.33333 16.3333C7.06971 16.3333 7.66667 15.7364 7.66667
                   15C7.66667 14.2636 7.06971 13.6667 6.33333 13.6667C5.59695
-                  13.6667 5 14.2636 5 15C5 15.7364 5.59695 16.3333 6.33333 16.3333Z'
+                  13.6667 5 14.2636 5 15C5 15.7364 5.59695 16.3333 6.33333
+                  16.3333Z'
                   stroke='white'
                   strokeWidth='1.8'
                   strokeLinecap='round'
@@ -63,7 +65,8 @@ export const Cart: React.FC = () => {
                 <path
                   d='M14.3333 16.3333C15.0697 16.3333 15.6667 15.7364 15.6667
                   15C15.6667 14.2636 15.0697 13.6667 14.3333 13.6667C13.597
-                  13.6667 13 14.2636 13 15C13 15.7364 13.597 16.3333 14.3333 16.3333Z'
+                  13.6667 13 14.2636 13 15C13 15.7364 13.597 16.3333 14.3333
+                  16.3333Z'
                   stroke='white'
                   strokeWidth='1.8'
                   strokeLinecap='round'

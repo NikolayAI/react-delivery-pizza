@@ -18,3 +18,6 @@ export enum appStatuses {
   loading = 'loading',
   error = 'error',
 }
+
+export const availableTypes = ['тонкое', 'традиционное']
+export const availableSizes = [26, 30, 40]

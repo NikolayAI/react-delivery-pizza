@@ -1,8 +1,9 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
-import '../assets/scss/app.scss'
-import { Cart, Catalog } from '../pages'
+
 import { Header } from '../components'
+import { Cart, Catalog } from '../pages'
+import '../assets/scss/app.scss'
 
 export const App: React.FC = () => {
   return (

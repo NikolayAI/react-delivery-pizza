@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
+
 import { setSortBy } from '../redux/actions'
 import { ISortBy } from '../redux/types'
 

@@ -1,9 +1,11 @@
-import classNames from 'classnames'
 import React from 'react'
-import { useSelectItem } from '../utils'
+import classNames from 'classnames'
+
 import { AddToCartButton } from './index'
+import { useSelectItem } from '../utils'
 import { IItem } from '../api/api'
 import { ICartItem } from '../redux/types'
+import { availableSizes, availableTypes } from '../constants/constats'
 
 interface IProductCard extends IItem {
   onClickAddItemToCart: (item: ICartItem) => void
@@ -21,9 +23,6 @@ export const ProductCard: React.FC<IProductCard> = React.memo(
     onClickAddItemToCart,
     itemCountInCart,
   }) => {
-    const availableTypes = ['тонкое', 'традиционное']
-    const availableSizes = [26, 30, 40]
-
     const {
       activeItem: activeType,
       handleSelectItem: handleSelectType,

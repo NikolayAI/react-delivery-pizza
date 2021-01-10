@@ -1,9 +1,10 @@
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { AxiosError } from 'axios'
+
 import { appStatuses } from '../../constants'
 import { IItem } from '../../api/api'
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { IFetchItemsParam, IThunkError } from '../types/catalog'
 import { catalogApi } from '../../api'
-import { AxiosError } from 'axios'
 
 export const fetchItems = createAsyncThunk<
   IItem[],

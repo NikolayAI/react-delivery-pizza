@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+
 import { addItemToCart, fetchItems } from '../redux/actions'
 import { appStatuses, categoryNames, filterNames } from '../constants'
 import { ICartItem } from '../redux/types'

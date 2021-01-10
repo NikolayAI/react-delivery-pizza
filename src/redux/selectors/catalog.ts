@@ -1,5 +1,6 @@
-import { RootState } from '../reducers'
 import { createSelector } from 'reselect'
+
+import { RootState } from '../reducers'
 
 const getItems = (state: RootState) => state.catalog.items
 export const selectItems = createSelector(getItems, (items) => items)

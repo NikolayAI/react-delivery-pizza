@@ -1,5 +1,6 @@
-import { ISortBy } from '../types'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+
+import { ISortBy } from '../types'
 
 const filtersSlice = createSlice({
   name: 'filters',
