@@ -34,6 +34,7 @@ const cartSlice = createSlice({
 
       setTotalPriceAndCountFlow(state, getTotalPrice)
     },
+
     increaseCartItem(state, { payload }: PayloadAction<number>) {
       const newObjItems = [
         ...state.items[payload].items,
@@ -43,9 +44,10 @@ const cartSlice = createSlice({
       setItemsAndTotalItemPriceFlow(state, payload, newObjItems, getTotalPrice)
       setTotalPriceAndCountFlow(state, getTotalPrice)
     },
+
     decreaseCartItem(state, { payload }: PayloadAction<number>) {
       const oldItems = state.items[payload].items
-      const newObjItems =
+      let newObjItems =
         oldItems.length > 0 ? state.items[payload].items.slice(1) : oldItems
 
       if (newObjItems.length < 1) {
@@ -56,9 +58,11 @@ const cartSlice = createSlice({
       setItemsAndTotalItemPriceFlow(state, payload, newObjItems, getTotalPrice)
       setTotalPriceAndCountFlow(state, getTotalPrice)
     },
+
     removeCartItemRow(state, { payload }: PayloadAction<number>) {
       removeCartItemRowFlow(state, payload)
     },
+
     clearCart(state) {
       state.items = {}
       state.totalPrice = 0
