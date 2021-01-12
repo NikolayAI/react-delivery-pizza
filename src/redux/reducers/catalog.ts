@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { AxiosError } from 'axios'
 
 import { appStatuses } from '../../constants'
 import { IItem } from '../../api/api'
-import { IFetchItemsParam, IThunkError } from '../types/catalog'
+import { IFetchItemsParam, IRejectValue, IThunkError } from '../types/catalog'
 import { catalogApi } from '../../api'
+import { AxiosError } from 'axios'
 
 export const fetchItems = createAsyncThunk<
   IItem[],
@@ -15,8 +15,11 @@ export const fetchItems = createAsyncThunk<
   try {
     return await catalogApi.getItems(category, sortBy)
   } catch (err) {
-    let error: AxiosError = err
-    return rejectWithValue({ errors: [error.message], fieldsErrors: undefined })
+    const error: IRejectValue & AxiosError = err
+    if (!error) {
+      throw err
+    }
+    return rejectWithValue(error)
   }
 })
 
@@ -39,11 +42,9 @@ const catalogSlice = createSlice({
       })
       .addCase(fetchItems.rejected, (state, action) => {
         state.status = appStatuses.error
-        if (action.payload) {
-          state.error = action.payload.errors[0]
-        } else {
-          state.error = action.error.message || 'Some error'
-        }
+        state.error = action.error.message
+          ? action.error.message
+          : 'Internal server error'
       }),
 })
 

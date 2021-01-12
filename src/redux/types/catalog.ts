@@ -1,10 +1,14 @@
 import { ISortBy } from './index'
 
+export interface IRejectValue {
+  errors: string[]
+  fieldsErrors?: IFieldError[]
+}
+
 export interface IThunkError {
-  rejectValue: {
-    errors: string[]
-    fieldsErrors?: IFieldError[]
-  }
+  name: string
+  message: string
+  rejectValue: IRejectValue
 }
 
 export interface IFieldError {
