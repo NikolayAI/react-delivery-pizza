@@ -5,7 +5,7 @@ import { AddToCartButton } from './index'
 import { useSelectItem } from '../utils'
 import { IItem } from '../api/api'
 import { ICartItem } from '../redux/types'
-import { availableSizes, availableTypes } from '../constants/constats'
+import { availableSizes, availableTypes } from '../constants'
 
 interface IProductCard extends IItem {
   onClickAddItemToCart: (item: ICartItem) => void

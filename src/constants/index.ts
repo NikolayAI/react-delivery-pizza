@@ -1,1 +1,8 @@
-export { categoryNames, appStatuses, filterNames } from './constats'
+export {
+  categoryNames,
+  appStatuses,
+  filterNames,
+  mockedState,
+  availableSizes,
+  availableTypes,
+} from './constats'
