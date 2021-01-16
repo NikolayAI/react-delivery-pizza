@@ -29,9 +29,7 @@ export const Catalog: React.FC = () => {
   const sortBy = useSelector(selectSortBy)
 
   useEffect(() => {
-    if (cash === `${category}_${sortBy.type}_${sortBy.order}`) {
-      return
-    } else {
+    if (cash !== `${category}_${sortBy.type}_${sortBy.order}`) {
       cash = `${category}_${sortBy.type}_${sortBy.order}`
       dispatch(fetchItems({ category, sortBy }))
     }
@@ -56,11 +54,14 @@ export const Catalog: React.FC = () => {
                 {...item}
                 onClickAddItemToCart={handleClickAddItemToCart}
                 itemCountInCart={cartItems[item.id]?.items.length}
+                data-testid='catalog-card'
               />
             ))
           : Array(8)
               .fill(0)
-              .map((_, i) => <CatalogLoader key={i} />)}
+              .map((_, i) => (
+                <CatalogLoader key={i} data-testid='catalog-loader' />
+              ))}
       </div>
     </div>
   )

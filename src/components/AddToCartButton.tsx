@@ -11,6 +11,7 @@ export const AddToCartButton: React.FC<IAddToCartButton> = React.memo(
       <div
         onClick={onClickAddItemToCart}
         className='button button--outline button--add'
+        data-testid='add-to-cart-button'
       >
         <svg
           width='12'
