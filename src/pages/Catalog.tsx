@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 import { addItemToCart, fetchItems } from '../redux/actions'
 import { appStatuses, categoryNames, filterNames } from '../constants'
@@ -17,11 +17,12 @@ import {
   selectSortBy,
   selectStatus,
 } from '../redux/selectors'
+import { useAppDispatch } from '../app/store'
 
 let cash = ''
 
 export const Catalog: React.FC = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const catalogItems = useSelector(selectItems)
   const cartItems = useSelector(selectCartItems)
   const status = useSelector(selectStatus)
@@ -31,7 +32,8 @@ export const Catalog: React.FC = () => {
   useEffect(() => {
     if (cash !== `${category}_${sortBy.type}_${sortBy.order}`) {
       cash = `${category}_${sortBy.type}_${sortBy.order}`
-      dispatch(fetchItems({ category, sortBy }))
+      const request = dispatch(fetchItems({ category, sortBy }))
+      return () => request.abort()
     }
   }, [dispatch, category, sortBy])
 

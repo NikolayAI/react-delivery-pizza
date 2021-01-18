@@ -1,25 +1,33 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import axios, { AxiosError } from 'axios'
 
 import { appStatuses } from '../../constants'
 import { IItem } from '../../api/api'
 import { IFetchItemsParam, IRejectValue, IThunkError } from '../types/catalog'
 import { catalogApi } from '../../api'
-import { AxiosError } from 'axios'
 
 export const fetchItems = createAsyncThunk<
   IItem[],
   IFetchItemsParam,
   IThunkError
->('catalog/fetchItems', async (param, { rejectWithValue }) => {
+>('catalog/fetchItems', async (param, { rejectWithValue, signal }) => {
   const { category, sortBy } = param
+  const source = axios.CancelToken.source()
+  signal.addEventListener('abort', () => {
+    source.cancel()
+  })
   try {
-    return await catalogApi.getItems(category, sortBy)
+    return await catalogApi.getItems(category, sortBy, source)
   } catch (err) {
     const error: IRejectValue & AxiosError = err
     if (!error) {
       throw err
     }
     return rejectWithValue(error)
+  } finally {
+    signal.removeEventListener('abort', () => {
+      source.cancel()
+    })
   }
 })
 
@@ -40,11 +48,9 @@ const catalogSlice = createSlice({
         state.items = payload
         state.status = appStatuses.success
       })
-      .addCase(fetchItems.rejected, (state, action) => {
+      .addCase(fetchItems.rejected, (state, { error }) => {
         state.status = appStatuses.error
-        state.error = action.error.message
-          ? action.error.message
-          : 'Internal server error'
+        state.error = error.message ? error.message : 'Internal server error'
       }),
 })
 

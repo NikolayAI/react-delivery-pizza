@@ -2,10 +2,11 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 
 import { store } from '../app/store'
 import { Catalog } from './Catalog'
+import { addItemToCart } from '../redux/reducers/cart'
 
 const items = [
   {
@@ -33,36 +34,41 @@ beforeAll(() => server.listen())
 afterEach(() => server.resetHandlers())
 afterAll(() => server.close())
 
-test('catalog get loader', async () => {
-  render(
-    <Provider store={store}>
-      <Catalog />
-    </Provider>
-  )
+describe('catalog page render', () => {
+  test('catalog get loader', async () => {
+    render(
+      <Provider store={store}>
+        <Catalog />
+      </Provider>
+    )
 
-  const loader = screen.getAllByTestId('catalog-loader')
+    const loader = screen.getAllByTestId('catalog-loader')
 
-  expect(loader).toBeDefined()
-})
+    expect(loader).toBeDefined()
+  })
 
-test('catalog get data success', async () => {
-  render(
-    <Provider store={store}>
-      <Catalog />
-    </Provider>
-  )
+  test('catalog get data success', async () => {
+    render(
+      <Provider store={store}>
+        <Catalog />
+      </Provider>
+    )
 
-  const card = await waitFor(() => screen.getByText('Пепперони Фреш с перцем'))
+    const card = await waitFor(() =>
+      screen.getByText(`Пепперони Фреш с перцем`)
+    )
 
-  expect(card).toBeDefined()
-})
+    expect(card).toBeDefined()
+  })
 
-test('click add to cart button', async () => {
-  render(
-    <Provider store={store}>
-      <Catalog />
-    </Provider>
-  )
+  test('click add to cart button', async () => {
+    render(
+      <Provider store={store}>
+        <Catalog />
+      </Provider>
+    )
 
-  fireEvent.click(screen.getByTestId('add-to-cart-button'))
+    await fireEvent.click(screen.getByTestId('add-to-cart-button'))
+    // expect(screen.getByText('1')).toBeInTheDocument()
+  })
 })
