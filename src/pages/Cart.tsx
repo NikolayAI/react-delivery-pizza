@@ -11,10 +11,50 @@ import {
   removeCartItemRow,
 } from '../redux/actions'
 import cartEmptyImg from '../assets/img/empty-cart.png'
+import { ICartItems } from '../redux/types'
 
 export const Cart: React.FC = () => {
   const dispatch = useDispatch()
-  const { totalPrice, totalCount, items } = useSelector(selectCart)
+  let { totalPrice, totalCount, items } = useSelector(selectCart)
+
+  items = {
+    '0': {
+      items: [
+        {
+          id: 0,
+          name: 'pizza1',
+          imageUrl: 'url1',
+          price: 10,
+          type: 'тонкое',
+          size: 26,
+        },
+        {
+          id: 0,
+          name: 'pizza1',
+          imageUrl: 'url1',
+          price: 20,
+          type: 'традиционное',
+          size: 40,
+        },
+      ],
+      totalItemPrice: 30,
+    },
+    '1': {
+      items: [
+        {
+          id: 1,
+          name: 'pizza2',
+          imageUrl: 'url2',
+          price: 20,
+          type: 'традиционное',
+          size: 26,
+        },
+      ],
+      totalItemPrice: 20,
+    },
+  }
+
+  totalCount = 3
   const cartItemsRaw = Object.keys(items).map((key) => items[key].items[0])
 
   const handleClearCart = () => {
@@ -137,7 +177,7 @@ export const Cart: React.FC = () => {
               <span onClick={handleClearCart}>Очистить корзину</span>
             </div>
           </div>
-          <div className='content__items'>
+          <div className='content__items' data-testid='cart-item'>
             {cartItemsRaw.map((item) => (
               <CartItemRow
                 key={item.id}
@@ -190,7 +230,7 @@ export const Cart: React.FC = () => {
           </div>
         </div>
       ) : (
-        <div className='cart cart--empty'>
+        <div className='cart cart--empty' data-testid='cart-empty'>
           <h2>Ваша корзина пустая</h2>
           <p>
             Вероятнее всего, вы ещё не заказывали пиццу.

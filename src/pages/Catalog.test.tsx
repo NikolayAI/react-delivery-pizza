@@ -2,11 +2,16 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  waitForElementToBeRemoved,
+} from '@testing-library/react'
 
 import { store } from '../app/store'
 import { Catalog } from './Catalog'
-import { addItemToCart } from '../redux/reducers/cart'
 
 const items = [
   {
@@ -45,6 +50,7 @@ describe('catalog page render', () => {
     const loader = screen.getAllByTestId('catalog-loader')
 
     expect(loader).toBeDefined()
+    await waitForElementToBeRemoved(loader)
   })
 
   test('catalog get data success', async () => {
@@ -68,7 +74,6 @@ describe('catalog page render', () => {
       </Provider>
     )
 
-    await fireEvent.click(screen.getByTestId('add-to-cart-button'))
-    // expect(screen.getByText('1')).toBeInTheDocument()
+    fireEvent.click(screen.getByTestId('add-to-cart-button'))
   })
 })
