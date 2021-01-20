@@ -2,11 +2,11 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
+import '@testing-library/jest-dom'
 import {
   fireEvent,
   render,
   screen,
-  waitFor,
   waitForElementToBeRemoved,
 } from '@testing-library/react'
 
@@ -47,9 +47,9 @@ describe('catalog page render', () => {
       </Provider>
     )
 
-    const loader = screen.getAllByTestId('catalog-loader')
+    const loader = await screen.findByTestId('catalog-loader')
 
-    expect(loader).toBeDefined()
+    expect(loader).toBeInTheDocument()
     await waitForElementToBeRemoved(loader)
   })
 
@@ -60,11 +60,9 @@ describe('catalog page render', () => {
       </Provider>
     )
 
-    const card = await waitFor(() =>
-      screen.getByText(`Пепперони Фреш с перцем`)
-    )
+    const card = await screen.findByText(`Пепперони Фреш с перцем`)
 
-    expect(card).toBeDefined()
+    expect(card).toBeInTheDocument()
   })
 
   test('click add to cart button', async () => {

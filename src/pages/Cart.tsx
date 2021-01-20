@@ -11,50 +11,10 @@ import {
   removeCartItemRow,
 } from '../redux/actions'
 import cartEmptyImg from '../assets/img/empty-cart.png'
-import { ICartItems } from '../redux/types'
 
 export const Cart: React.FC = () => {
   const dispatch = useDispatch()
-  let { totalPrice, totalCount, items } = useSelector(selectCart)
-
-  items = {
-    '0': {
-      items: [
-        {
-          id: 0,
-          name: 'pizza1',
-          imageUrl: 'url1',
-          price: 10,
-          type: 'тонкое',
-          size: 26,
-        },
-        {
-          id: 0,
-          name: 'pizza1',
-          imageUrl: 'url1',
-          price: 20,
-          type: 'традиционное',
-          size: 40,
-        },
-      ],
-      totalItemPrice: 30,
-    },
-    '1': {
-      items: [
-        {
-          id: 1,
-          name: 'pizza2',
-          imageUrl: 'url2',
-          price: 20,
-          type: 'традиционное',
-          size: 26,
-        },
-      ],
-      totalItemPrice: 20,
-    },
-  }
-
-  totalCount = 3
+  const { totalPrice, totalCount, items } = useSelector(selectCart)
   const cartItemsRaw = Object.keys(items).map((key) => items[key].items[0])
 
   const handleClearCart = () => {
