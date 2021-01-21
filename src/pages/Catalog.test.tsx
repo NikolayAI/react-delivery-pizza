@@ -3,8 +3,8 @@ import { Provider } from 'react-redux'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom'
+import userEvent from '@testing-library/user-event'
 import {
-  fireEvent,
   render,
   screen,
   waitForElementToBeRemoved,
@@ -39,39 +39,36 @@ beforeAll(() => server.listen())
 afterEach(() => server.resetHandlers())
 afterAll(() => server.close())
 
+const renderWithCatalog = () => {
+  render(
+    <Provider store={store}>
+      <Catalog />
+    </Provider>
+  )
+}
+
 describe('catalog page render', () => {
-  test('catalog get loader', async () => {
-    render(
-      <Provider store={store}>
-        <Catalog />
-      </Provider>
-    )
+  it('catalog get loader', async () => {
+    renderWithCatalog()
 
-    const loader = await screen.findByTestId('catalog-loader')
+    const loader = screen.queryAllByTestId('catalog-loader')
 
-    expect(loader).toBeInTheDocument()
+    expect(loader[0]).toBeInTheDocument()
+
     await waitForElementToBeRemoved(loader)
   })
 
-  test('catalog get data success', async () => {
-    render(
-      <Provider store={store}>
-        <Catalog />
-      </Provider>
-    )
+  it('catalog get data success', async () => {
+    renderWithCatalog()
 
     const card = await screen.findByText(`Пепперони Фреш с перцем`)
 
     expect(card).toBeInTheDocument()
   })
 
-  test('click add to cart button', async () => {
-    render(
-      <Provider store={store}>
-        <Catalog />
-      </Provider>
-    )
+  it('click add to cart button', async () => {
+    renderWithCatalog()
 
-    fireEvent.click(screen.getByTestId('add-to-cart-button'))
+    userEvent.click(screen.getByTestId('add-to-cart-button'))
   })
 })

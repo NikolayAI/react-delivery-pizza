@@ -72,6 +72,7 @@ export const CartItemRow: React.FC<ICartItemRow> = React.memo(
           <button
             className='button button--outline button--circle cart__item-count-plus'
             onClick={handleIncreaseItem}
+            data-testid='cart-item-row-increase'
           >
             <svg
               width='10'
@@ -106,6 +107,7 @@ export const CartItemRow: React.FC<ICartItemRow> = React.memo(
           <button
             onClick={handleRemoveItem}
             className='button button--outline button--circle'
+            data-testid='cart-item-row-remove'
           >
             <svg
               width='10'

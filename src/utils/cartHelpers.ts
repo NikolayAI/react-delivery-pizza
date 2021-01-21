@@ -5,8 +5,8 @@ export const getTotalPrice = (arr: ICartItem[]) => {
 }
 
 export const removeCartItemRowFlow = (state: any, itemId: number) => {
-  state.totalPrice -= state.items[itemId].totalItemPrice
-  state.totalCount -= state.items[itemId].items.length
+  state.totalPrice -= state.items[itemId]?.totalItemPrice
+  state.totalCount -= state.items[itemId]?.items.length
   delete state.items[itemId]
 }
 

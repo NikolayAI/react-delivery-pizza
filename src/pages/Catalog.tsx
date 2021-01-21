@@ -21,7 +21,7 @@ import { useAppDispatch } from '../app/store'
 
 let cash = ''
 
-export const Catalog: React.FC = () => {
+export const Catalog: React.FC = React.memo(() => {
   const dispatch = useAppDispatch()
   const catalogItems = useSelector(selectItems)
   const cartItems = useSelector(selectCartItems)
@@ -67,4 +67,4 @@ export const Catalog: React.FC = () => {
       </div>
     </div>
   )
-}
+})
