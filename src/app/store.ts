@@ -19,4 +19,5 @@ store.subscribe(
 )
 
 type AppDispatch = typeof store.dispatch
+export type StoreType = typeof store
 export const useAppDispatch = () => useDispatch<AppDispatch>()

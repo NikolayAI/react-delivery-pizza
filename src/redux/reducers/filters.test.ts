@@ -26,11 +26,11 @@ describe('should set sortBy properties', () => {
 
   const endState = filters(startState, setSortBy(sortBy))
 
-  test('sortBy type should be changed', () => {
+  it('sortBy type should be changed', () => {
     expect(endState.sortBy.type).toEqual('price')
   })
 
-  test('sortBy order should be changed', () => {
+  it('sortBy order should be changed', () => {
     expect(endState.sortBy.order).toEqual('asc')
   })
 })
@@ -38,7 +38,7 @@ describe('should set sortBy properties', () => {
 describe('should set category', () => {
   const endState = filters(startState, setCategory(1))
 
-  test('category should be changed', () => {
+  it('category should be changed', () => {
     expect(endState.category).toEqual(1)
   })
 })

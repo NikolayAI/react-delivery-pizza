@@ -88,7 +88,7 @@ describe('fetchItems thunk succeeded', () => {
   beforeEach(() => {
     catalogApiMock.getItems.mockResolvedValue(result)
   })
-  test('fetchItems should return value', async () => {
+  it('fetchItems should return value', async () => {
     const action = await fetchItems(thunkArgs)(dispatch, getState, {})
 
     expect(dispatch).toBeCalledTimes(2)
@@ -102,7 +102,7 @@ describe('fetchItems thunk error without value', () => {
   beforeEach(() => {
     catalogApiMock.getItems.mockRejectedValue(null)
   })
-  test('fetchItems error should not return value', async () => {
+  it('fetchItems error should not return value', async () => {
     const action = await fetchItems(thunkArgs)(dispatch, getState, {})
 
     expect(dispatch).toBeCalledTimes(2)
@@ -123,7 +123,7 @@ describe('fetchItems thunk error with value', () => {
   beforeEach(() => {
     catalogApiMock.getItems.mockRejectedValue(error)
   })
-  test('fetchItems should return value', async () => {
+  it('fetchItems should return value', async () => {
     await fetchItems(thunkArgs)(dispatch, getState, {})
 
     expect(dispatch.mock.calls.length).toBe(2)
@@ -135,11 +135,11 @@ describe('when request is pending', () => {
 
   const endState = catalog(startState, action)
 
-  test('status should be changed', () => {
+  it('status should be changed', () => {
     expect(endState.status).toEqual(appStatuses.loading)
   })
 
-  test('items should not to be defined', () => {
+  it('items should not to be defined', () => {
     expect(endState.items.length).toEqual(0)
   })
 })
@@ -149,11 +149,11 @@ describe('when request is succeeded', () => {
 
   const endState = catalog(startState, action)
 
-  test('status should be changed', () => {
+  it('status should be changed', () => {
     expect(endState.status).toEqual(appStatuses.success)
   })
 
-  test('items should be set into the state', () => {
+  it('items should be set into the state', () => {
     expect(endState.items.length).toEqual(2)
   })
 })
@@ -163,11 +163,11 @@ describe('when request is error without value', () => {
 
   const endState = catalog(startState, action)
 
-  test('status should be changed', () => {
+  it('status should be changed', () => {
     expect(endState.status).toEqual(appStatuses.error)
   })
 
-  test('should set error', () => {
+  it('should set error', () => {
     expect(endState.error).toEqual('Rejected')
   })
 })
@@ -182,11 +182,11 @@ describe('when request is error with value', () => {
 
   const endState = catalog(startState, action)
 
-  test('status should be changed', () => {
+  it('status should be changed', () => {
     expect(endState.status).toEqual(appStatuses.error)
   })
 
-  test('should set error', () => {
+  it('should set error', () => {
     expect(endState.error).toEqual('Internal server error')
   })
 })
