@@ -1,6 +1,7 @@
 import { IItem } from '../../api/api'
-import { appStatuses, mockedState } from '../../constants'
+import { appStatuses } from '../../constants'
 import { getItems, getStatus, selectItems, selectStatus } from './catalog'
+import { mockedState } from '../../utils/testFixstures'
 
 const catalogState = {
   items: [

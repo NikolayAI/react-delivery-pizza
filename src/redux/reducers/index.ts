@@ -5,9 +5,9 @@ import { catalog } from './catalog'
 import { cart } from './cart'
 
 export const rootReducer = combineReducers({
+  cart,
   filters,
   catalog,
-  cart,
 })
 
 export type RootState = ReturnType<typeof rootReducer>

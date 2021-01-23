@@ -42,6 +42,7 @@ export const CartItemRow: React.FC<ICartItemRow> = React.memo(
           <button
             className='button button--outline button--circle cart__item-count-minus'
             onClick={handleDecreaseItem}
+            data-testid='cart-item-row-decrease'
           >
             <svg
               width='10'

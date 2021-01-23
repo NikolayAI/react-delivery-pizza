@@ -10,7 +10,6 @@ import {
   removeCartItemRow,
 } from '../redux/actions'
 import cartEmptyImg from '../assets/img/empty-cart.png'
-import { ICartItems } from '../redux/types'
 import { selectCart } from '../redux/selectors'
 
 export const Cart: React.FC = React.memo(() => {

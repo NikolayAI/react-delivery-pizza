@@ -6,7 +6,7 @@ import {
   removeCartItemRowFlow,
   setItemsAndTotalItemPriceFlow,
   setTotalPriceAndCountFlow,
-} from '../../utils/cartHelpers'
+} from '../../utils'
 
 const cartSlice = createSlice({
   name: 'cart',

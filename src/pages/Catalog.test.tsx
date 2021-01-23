@@ -1,17 +1,13 @@
 import React from 'react'
-import { Provider } from 'react-redux'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom'
 import userEvent from '@testing-library/user-event'
-import {
-  render,
-  screen,
-  waitForElementToBeRemoved,
-} from '@testing-library/react'
+import { waitForElementToBeRemoved } from '@testing-library/react'
 
-import { store } from '../app/store'
+import { testRender } from '../utils/testHelpers'
 import { Catalog } from './Catalog'
+import { store } from '../app/store'
 
 const items = [
   {
@@ -39,36 +35,26 @@ beforeAll(() => server.listen())
 afterEach(() => server.resetHandlers())
 afterAll(() => server.close())
 
-const renderWithCatalog = () => {
-  render(
-    <Provider store={store}>
-      <Catalog />
-    </Provider>
-  )
-}
-
 describe('catalog page render', () => {
   it('catalog get loader', async () => {
-    renderWithCatalog()
+    const { queryAllByTestId } = testRender(<Catalog />, { store })
 
-    const loader = screen.queryAllByTestId('catalog-loader')
-
+    const loader = queryAllByTestId('catalog-loader')
     expect(loader[0]).toBeInTheDocument()
 
     await waitForElementToBeRemoved(loader)
   })
 
   it('catalog get data success', async () => {
-    renderWithCatalog()
-
-    const card = await screen.findByText(`Пепперони Фреш с перцем`)
+    const { findByText } = testRender(<Catalog />, { store })
+    const card = await findByText(`Пепперони Фреш с перцем`)
 
     expect(card).toBeInTheDocument()
   })
 
   it('click add to cart button', async () => {
-    renderWithCatalog()
+    const { getByTestId } = testRender(<Catalog />, { store })
 
-    userEvent.click(screen.getByTestId('add-to-cart-button'))
+    userEvent.click(getByTestId('add-to-cart-button'))
   })
 })

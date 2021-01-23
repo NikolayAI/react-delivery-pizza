@@ -1,14 +1,32 @@
 import {
-  cart,
   addItemToCart,
-  increaseCartItem,
-  decreaseCartItem,
+  cart,
   clearCart,
+  decreaseCartItem,
+  increaseCartItem,
   removeCartItemRow,
 } from './cart'
 import { ICartItems } from '../types'
 
-let startState = {
+const cartItem = {
+  id: 0,
+  name: 'pizza1',
+  imageUrl: 'url1',
+  price: 15,
+  type: 'тонкое',
+  size: 30,
+}
+
+const cartItem1 = {
+  id: 2,
+  name: 'pizza3',
+  imageUrl: 'url3',
+  price: 10,
+  type: 'тонкое',
+  size: 26,
+}
+
+let cartStartState = {
   items: {
     '0': {
       items: [
@@ -49,26 +67,8 @@ let startState = {
   totalCount: 3,
 }
 
-const cartItem = {
-  id: 0,
-  name: 'pizza1',
-  imageUrl: 'url1',
-  price: 15,
-  type: 'тонкое',
-  size: 30,
-}
-
-const cartItem1 = {
-  id: 2,
-  name: 'pizza3',
-  imageUrl: 'url3',
-  price: 10,
-  type: 'тонкое',
-  size: 26,
-}
-
 beforeEach(() => {
-  startState = {
+  cartStartState = {
     items: {
       '0': {
         items: [
@@ -111,7 +111,7 @@ beforeEach(() => {
 })
 
 describe('first item should be added in cart', () => {
-  const endState = cart(startState, addItemToCart(cartItem1))
+  const endState = cart(cartStartState, addItemToCart(cartItem1))
 
   it('should add first item with key 2', () => {
     expect(endState.items[cartItem1.id]).toBeDefined()
@@ -121,7 +121,7 @@ describe('first item should be added in cart', () => {
 })
 
 describe('second item should be added in cart', () => {
-  const endState = cart(startState, addItemToCart(cartItem))
+  const endState = cart(cartStartState, addItemToCart(cartItem))
 
   it('should add first item with key 1', () => {
     expect(endState.items[cartItem.id].items.length).toEqual(3)
@@ -140,7 +140,7 @@ describe('second item should be added in cart', () => {
 })
 
 describe('correct cart item should be increase', () => {
-  const endState = cart(startState, increaseCartItem(1))
+  const endState = cart(cartStartState, increaseCartItem(1))
 
   it('should increase correct item', () => {
     expect(endState.items[cartItem.id].items.length).toEqual(2)
@@ -153,7 +153,7 @@ describe('correct cart item should be increase', () => {
 })
 
 describe('correct cart item should be decrease', () => {
-  const endState = cart(startState, decreaseCartItem(0))
+  const endState = cart(cartStartState, decreaseCartItem(0))
 
   it('should decrease correct item', () => {
     expect(endState.items[cartItem.id].items.length).toEqual(1)
@@ -166,7 +166,7 @@ describe('correct cart item should be decrease', () => {
 })
 
 describe('correct cart item should be removed, when item count equal 1', () => {
-  const endState = cart(startState, decreaseCartItem(1))
+  const endState = cart(cartStartState, decreaseCartItem(1))
 
   it('should removed correct item after decrease', () => {
     expect(endState.items[cartItem.id].items.length).toEqual(2)
@@ -175,7 +175,7 @@ describe('correct cart item should be removed, when item count equal 1', () => {
 })
 
 describe('cart item should be removed', () => {
-  const endState = cart(startState, removeCartItemRow(0))
+  const endState = cart(cartStartState, removeCartItemRow(0))
 
   it('correct cart item should be removed', () => {
     expect(endState.items[0]).not.toBeDefined()
@@ -184,7 +184,7 @@ describe('cart item should be removed', () => {
 })
 
 describe('cart should be cleared', () => {
-  const endState = cart(startState, clearCart())
+  const endState = cart(cartStartState, clearCart())
 
   it('cart should be cleared', () => {
     expect(endState.items).toStrictEqual({})

@@ -1,89 +1,33 @@
 import React from 'react'
-import { render } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import thunkMiddleware from 'redux-thunk'
-
-import { Cart } from './Cart'
-import { Provider } from 'react-redux'
-import { StoreType } from '../app/store'
 import userEvent from '@testing-library/user-event'
-import { rootReducer } from '../redux/reducers'
-import { applyMiddleware, compose, createStore } from 'redux'
-import { addItemToCart, clearCart } from '../redux/reducers/cart'
-import { BrowserRouter as Router } from 'react-router-dom'
 
-const items = {
-  '0': {
-    items: [
-      {
-        id: 0,
-        name: 'pizza1',
-        imageUrl: 'url1',
-        price: 10,
-        type: 'тонкое',
-        size: 26,
-      },
-    ],
-    totalItemPrice: 30,
-  },
-}
+import { makeTestStore, testRender } from '../utils/testHelpers'
+import { cartItem, cartItems } from '../utils/testFixstures'
+import { Cart } from './Cart'
+import {
+  addItemToCart,
+  clearCart,
+  decreaseCartItem,
+  increaseCartItem,
+  removeCartItemRow,
+} from '../redux/reducers/cart'
 
-const item = {
-  id: 0,
-  name: 'pizza1',
-  imageUrl: 'url1',
-  price: 10,
-  type: 'тонкое',
-  size: 26,
-}
-
-const initialAppState = {}
-
-interface ITestRenderParams {
-  store: StoreType
-  otherOpts?: any[]
-}
-
-const testRender = (
-  Component: React.ReactElement,
-  { store, otherOpts = [] }: ITestRenderParams
-) => {
-  return render(
-    <Router>
-      <Provider store={store}>{Component}</Provider>
-    </Router>,
-    ...otherOpts
-  )
-}
-
-const makeStore = () => {
-  return createStore(
-    rootReducer,
-    initialAppState,
-    compose(applyMiddleware(thunkMiddleware))
-  )
-}
-
-const makeTestStore = () => {
-  const testStore = makeStore()
-  const origDispatch = testStore.dispatch
-  testStore.dispatch = jest.fn(origDispatch)
-  return testStore
-}
+console.log = jest.fn()
 
 describe('cart page render', () => {
   it('cart with item get loaded', async () => {
     const store = makeTestStore()
-    store.dispatch(addItemToCart(item))
+    store.dispatch(addItemToCart(cartItem))
 
     const { queryByTestId } = testRender(<Cart />, { store })
 
     expect(queryByTestId('cart-item')).toBeDefined()
   })
 
-  it('cart with item confirm clear cart', async () => {
+  it('cart with item should clear cart', async () => {
     const store = makeTestStore()
-    store.dispatch(addItemToCart(item))
+    store.dispatch(addItemToCart(cartItem))
 
     const { getByText } = testRender(<Cart />, { store })
 
@@ -91,17 +35,58 @@ describe('cart page render', () => {
     expect(store.dispatch).toHaveBeenCalledWith(clearCart())
   })
 
-  it('cart with item decrement item', async () => {
+  it('cart with item should remove item', async () => {
     const store = makeTestStore()
-    store.dispatch(addItemToCart(item))
+    store.dispatch(addItemToCart(cartItem))
 
-    const { getByText, getByTestId, queryByTestId } = testRender(<Cart />, {
+    const { getByText, getByTestId, queryByText } = testRender(<Cart />, {
       store,
     })
 
     expect(getByText(/1 шт/)).toBeInTheDocument()
 
     userEvent.click(getByTestId(/cart-item-row-remove/))
-    expect(queryByTestId(/1 шт/)).not.toBeInTheDocument()
+    expect(store.dispatch).toHaveBeenCalledWith(removeCartItemRow(cartItem.id))
+    expect(queryByText(/1 шт/)).not.toBeInTheDocument()
+  })
+
+  it('cart with item should increase item', async () => {
+    const store = makeTestStore()
+    store.dispatch(addItemToCart(cartItem))
+
+    const { getByText, getByTestId } = testRender(<Cart />, { store })
+
+    expect(getByText(/1 шт/)).toBeInTheDocument()
+
+    userEvent.click(getByTestId(/cart-item-row-increase/))
+    expect(store.dispatch).toHaveBeenCalledWith(increaseCartItem(cartItem.id))
+    expect(getByText(/2 шт/)).toBeInTheDocument()
+  })
+
+  it('cart with item should decrease item', async () => {
+    const store = makeTestStore()
+    store.dispatch(addItemToCart(cartItem))
+
+    const { getByText, getByTestId, queryByText } = testRender(<Cart />, {
+      store,
+    })
+
+    expect(getByText(/1 шт/)).toBeInTheDocument()
+
+    userEvent.click(getByTestId(/cart-item-row-decrease/))
+    expect(store.dispatch).toHaveBeenCalledWith(decreaseCartItem(cartItem.id))
+    expect(queryByText(/1 шт/)).not.toBeInTheDocument()
+  })
+
+  it('cart with item should checkout', async () => {
+    const store = makeTestStore()
+    store.dispatch(addItemToCart(cartItem))
+
+    const { getByText } = testRender(<Cart />, { store })
+
+    expect(getByText(/1 шт/)).toBeInTheDocument()
+
+    userEvent.click(getByText(/Оплатить сейчас/))
+    expect(console.log).toHaveBeenCalledWith('Ваш заказ: ', cartItems)
   })
 })

@@ -1,5 +1,5 @@
 import { getCategory, getSortBy, selectCategory, selectSortBy } from './filters'
-import { mockedState } from '../../constants'
+import { mockedState } from '../../utils/testFixstures'
 
 const filtersState = {
   category: 0,

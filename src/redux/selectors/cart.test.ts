@@ -1,6 +1,6 @@
 import { ICartItems } from '../types'
 import { getCart, getCartItems, selectCart, selectCartItems } from './cart'
-import { mockedState } from '../../constants'
+import { mockedState } from '../../utils/testFixstures'
 
 const cartState = {
   items: {

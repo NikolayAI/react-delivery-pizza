@@ -2,6 +2,11 @@ import { catalog, fetchItems } from './catalog'
 import { IItem } from '../../api/api'
 import { catalogApi } from '../../api'
 import { appStatuses } from '../../constants'
+import {
+  catalogItems,
+  catalogResponseData,
+  catalogThunkArgs,
+} from '../../utils/testFixstures'
 
 jest.mock('../../api/catalogApi')
 const catalogApiMock = catalogApi as jest.Mocked<typeof catalogApi>
@@ -12,68 +17,10 @@ afterEach(() => {
   catalogApiMock.getItems.mockClear()
 })
 
-const result: IItem[] = [
-  {
-    id: 0,
-    imageUrl:
-      'https://dodopizza.azureedge.net/static/Img/Products/f035c7f46c0844069722f2bb3ee9f113_584x584.jpeg',
-    name: 'Пепперони Фреш с перцем',
-    types: [0, 1],
-    sizes: [26, 30, 40],
-    price: 803,
-    category: 0,
-    rating: 4,
-  },
-  {
-    id: 1,
-    imageUrl:
-      'https://dodopizza.azureedge.net/static/Img/Products/Pizza/ru-RU/2ffc31bb-132c-4c99-b894-53f7107a1441.jpg',
-    name: 'Сырная',
-    types: [0],
-    sizes: [26, 40],
-    price: 245,
-    category: 1,
-    rating: 6,
-  },
-]
-
 let startState = {
   items: [] as IItem[],
   status: appStatuses.success as string,
   error: '' as string,
-}
-
-const items = [
-  {
-    id: 0,
-    imageUrl:
-      'https://dodopizza.azureedge.net/static/Img/Products/f035c7f46c0844069722f2bb3ee9f113_584x584.jpeg',
-    name: 'Пепперони Фреш с перцем',
-    types: [0, 1],
-    sizes: [26, 30, 40],
-    price: 803,
-    category: 0,
-    rating: 4,
-  },
-  {
-    id: 1,
-    imageUrl:
-      'https://dodopizza.azureedge.net/static/Img/Products/Pizza/ru-RU/2ffc31bb-132c-4c99-b894-53f7107a1441.jpg',
-    name: 'Сырная',
-    types: [0],
-    sizes: [26, 40],
-    price: 245,
-    category: 1,
-    rating: 6,
-  },
-]
-
-const thunkArgs = {
-  category: 0,
-  sortBy: {
-    type: 'тонкое',
-    order: 'desc',
-  },
 }
 
 beforeEach(() => {
@@ -86,14 +33,18 @@ beforeEach(() => {
 
 describe('fetchItems thunk succeeded', () => {
   beforeEach(() => {
-    catalogApiMock.getItems.mockResolvedValue(result)
+    catalogApiMock.getItems.mockResolvedValue(catalogResponseData)
   })
   it('fetchItems should return value', async () => {
-    const action = await fetchItems(thunkArgs)(dispatch, getState, {})
+    const action = await fetchItems(catalogThunkArgs)(dispatch, getState, {})
 
     expect(dispatch).toBeCalledTimes(2)
     expect(dispatch).toHaveBeenLastCalledWith(
-      fetchItems.fulfilled(items, action.meta.requestId, thunkArgs)
+      fetchItems.fulfilled(
+        catalogItems,
+        action.meta.requestId,
+        catalogThunkArgs
+      )
     )
   })
 })
@@ -103,11 +54,11 @@ describe('fetchItems thunk error without value', () => {
     catalogApiMock.getItems.mockRejectedValue(null)
   })
   it('fetchItems error should not return value', async () => {
-    const action = await fetchItems(thunkArgs)(dispatch, getState, {})
+    const action = await fetchItems(catalogThunkArgs)(dispatch, getState, {})
 
     expect(dispatch).toBeCalledTimes(2)
     expect(dispatch).toHaveBeenLastCalledWith(
-      fetchItems.rejected(null, action.meta.requestId, thunkArgs)
+      fetchItems.rejected(null, action.meta.requestId, catalogThunkArgs)
     )
   })
 })
@@ -124,14 +75,14 @@ describe('fetchItems thunk error with value', () => {
     catalogApiMock.getItems.mockRejectedValue(error)
   })
   it('fetchItems should return value', async () => {
-    await fetchItems(thunkArgs)(dispatch, getState, {})
+    await fetchItems(catalogThunkArgs)(dispatch, getState, {})
 
     expect(dispatch.mock.calls.length).toBe(2)
   })
 })
 
 describe('when request is pending', () => {
-  const action = fetchItems.pending('requestId', thunkArgs)
+  const action = fetchItems.pending('requestId', catalogThunkArgs)
 
   const endState = catalog(startState, action)
 
@@ -145,7 +96,11 @@ describe('when request is pending', () => {
 })
 
 describe('when request is succeeded', () => {
-  const action = fetchItems.fulfilled(items, 'requestId', thunkArgs)
+  const action = fetchItems.fulfilled(
+    catalogItems,
+    'requestId',
+    catalogThunkArgs
+  )
 
   const endState = catalog(startState, action)
 
@@ -159,7 +114,7 @@ describe('when request is succeeded', () => {
 })
 
 describe('when request is error without value', () => {
-  const action = fetchItems.rejected(null, 'requestId', thunkArgs)
+  const action = fetchItems.rejected(null, 'requestId', catalogThunkArgs)
 
   const endState = catalog(startState, action)
 
@@ -178,7 +133,7 @@ describe('when request is error with value', () => {
     message: '',
   }
 
-  const action = fetchItems.rejected(error, 'requestId', thunkArgs)
+  const action = fetchItems.rejected(error, 'requestId', catalogThunkArgs)
 
   const endState = catalog(startState, action)
 
