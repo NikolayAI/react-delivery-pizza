@@ -35,7 +35,7 @@ export const SortPopup: React.FC<ISortPopup> = React.memo(
     }, [])
 
     return (
-      <div className='sort' ref={sort}>
+      <div className='sort' ref={sort} data-testid='sort-popup-ref'>
         <div className='sort__label'>
           <svg
             className={visiblePopup ? 'rotated' : ''}
@@ -59,7 +59,9 @@ export const SortPopup: React.FC<ISortPopup> = React.memo(
             />
           </svg>
           <b>Сортировка по:</b>
-          <span onClick={toggleVisiblePopup}>{activeSortTitle}</span>
+          <span onClick={toggleVisiblePopup} data-testid='visible-sort-popup'>
+            {activeSortTitle}
+          </span>
         </div>
         {visiblePopup && (
           <div className='sort__popup'>

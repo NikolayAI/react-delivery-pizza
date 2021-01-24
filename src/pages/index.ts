@@ -1,5 +1,2 @@
 export { Catalog } from './Catalog'
 export { Cart } from './Cart'
-export { testRender } from './Cart.test'
-export { makeTestStore } from './Cart.test'
-export { makeStore } from './Cart.test'

@@ -1,3 +1,7 @@
+import '@testing-library/jest-dom'
+
+import { cartItem, cartItem1 } from '../../utils/testFixstures'
+import { ICartItems } from '../types'
 import {
   addItemToCart,
   cart,
@@ -6,25 +10,6 @@ import {
   increaseCartItem,
   removeCartItemRow,
 } from './cart'
-import { ICartItems } from '../types'
-
-const cartItem = {
-  id: 0,
-  name: 'pizza1',
-  imageUrl: 'url1',
-  price: 15,
-  type: 'тонкое',
-  size: 30,
-}
-
-const cartItem1 = {
-  id: 2,
-  name: 'pizza3',
-  imageUrl: 'url3',
-  price: 10,
-  type: 'тонкое',
-  size: 26,
-}
 
 let cartStartState = {
   items: {

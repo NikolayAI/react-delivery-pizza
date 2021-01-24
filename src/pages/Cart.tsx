@@ -145,7 +145,6 @@ export const Cart: React.FC = React.memo(() => {
                 onRemoveCartItem={handleRemoveCartItem}
                 onIncrease={handleIncreaseCartItem}
                 onDecrease={handleDecreaseCartItem}
-                data-testid='cart-item'
               />
             ))}
           </div>

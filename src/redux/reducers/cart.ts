@@ -47,8 +47,11 @@ const cartSlice = createSlice({
 
     decreaseCartItem(state, { payload }: PayloadAction<number>) {
       const oldItems = state.items[payload].items
-      let newObjItems =
-        oldItems.length > 0 ? state.items[payload].items.slice(1) : oldItems
+      let newObjItems: ICartItem[] = []
+
+      if (oldItems.length > 0) {
+        newObjItems = state.items[payload].items.slice(1)
+      }
 
       if (newObjItems.length < 1) {
         removeCartItemRowFlow(state, payload)

@@ -8,7 +8,7 @@ export const Header: React.FC = () => {
   return (
     <div className='header'>
       <div className='container'>
-        <Link to='/'>
+        <Link to='/' data-testid='catalog-link'>
           <div className='header__logo'>
             <img width='38' src={logo} alt='Pizza logo' />
             <div>
@@ -18,7 +18,7 @@ export const Header: React.FC = () => {
           </div>
         </Link>
         <div className='header__cart'>
-          <Link to='/cart'>
+          <Link to='/cart' data-testid='cart-link'>
             <CartButton className='button--cart' />
           </Link>
         </div>

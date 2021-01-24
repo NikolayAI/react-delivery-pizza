@@ -1,11 +1,12 @@
 import React from 'react'
-import { StoreType } from '../app/store'
+import { Provider } from 'react-redux'
 import { applyMiddleware, compose, createStore } from 'redux'
-import { rootReducer } from '../redux/reducers'
 import thunkMiddleware from 'redux-thunk'
 import { render } from '@testing-library/react'
 import { BrowserRouter as Router } from 'react-router-dom'
-import { Provider } from 'react-redux'
+
+import { StoreType } from '../app/store'
+import { rootReducer } from '../redux/reducers'
 
 export interface ITestRenderParams {
   store: StoreType

@@ -1,5 +1,5 @@
-import { ICartItems } from '../types'
 import { getCart, getCartItems, selectCart, selectCartItems } from './cart'
+import { ICartItems } from '../types'
 import { mockedState } from '../../utils/testFixstures'
 
 const cartState = {

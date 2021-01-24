@@ -117,14 +117,35 @@ export const cartItem = {
   id: 0,
   name: 'pizza1',
   imageUrl: 'url1',
-  price: 10,
+  price: 15,
   type: 'тонкое',
-  size: 26,
+  size: 30,
 }
 
 export const cartItems = {
   '0': {
     items: [cartItem],
-    totalItemPrice: 10,
+    totalItemPrice: 15,
   },
+}
+
+export const productCardItem = {
+  id: 0,
+  name: 'Пепперони Фреш с перцем',
+  imageUrl:
+    'https://dodopizza.azureedge.net/static/Img/Products/f035c7f46c0844069722f2bb3ee9f113_584x584.jpeg',
+  price: 803,
+  sizes: [26, 30, 40],
+  types: [0, 1],
+  rating: 4,
+  category: 0,
+}
+
+export const cartItem1 = {
+  id: 2,
+  name: 'pizza3',
+  imageUrl: 'url3',
+  price: 10,
+  type: 'тонкое',
+  size: 26,
 }

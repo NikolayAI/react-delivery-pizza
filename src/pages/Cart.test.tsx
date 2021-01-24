@@ -20,9 +20,9 @@ describe('cart page render', () => {
     const store = makeTestStore()
     store.dispatch(addItemToCart(cartItem))
 
-    const { queryByTestId } = testRender(<Cart />, { store })
+    const { getByTestId } = testRender(<Cart />, { store })
 
-    expect(queryByTestId('cart-item')).toBeDefined()
+    expect(getByTestId('cart-item')).toBeInTheDocument()
   })
 
   it('cart with item should clear cart', async () => {
